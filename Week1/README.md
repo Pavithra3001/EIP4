@@ -41,6 +41,7 @@ ACTIVATION FUNCTION:
   Non-linear functions that are applied in the network to work on compliceted tasks. To reduce impurities and errors.
   Makes Back Propagataion  useful.
   Example - Logistic, tanh, relu functions
+
 RECEPTIVE FIELD:
 --
    The pixels of input matrix where the filter is applied. 
