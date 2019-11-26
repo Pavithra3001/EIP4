@@ -89,3 +89,8 @@ Epoch 00020: LearningRateScheduler setting learning rate to 0.000424869.
 # Score
 
 [0.02043604949110886, 0.9941]
+
+# Steps followed
+1. as per the requirement, use_bias set as False
+2. reduce the number of filters, but the status was val_acc less than the acc 
+3. Global Average Pooling to make the system more robust by making val_acc greater than the acc
