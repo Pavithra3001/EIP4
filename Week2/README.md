@@ -1,6 +1,6 @@
 Assignment2
 
-
+# Model training history
 
 
 Train on 60000 samples, validate on 10000 samples
@@ -85,3 +85,7 @@ Epoch 20/20
 Epoch 00020: LearningRateScheduler setting learning rate to 0.000424869.
 60000/60000 [==============================] - 12s 201us/step - loss: 0.0300 - acc: 0.9923 - val_loss: 0.0204 - val_acc: 0.9941
 <keras.callbacks.History at 0x7faf9833e400>
+
+# Score
+
+[0.02043604949110886, 0.9941]
