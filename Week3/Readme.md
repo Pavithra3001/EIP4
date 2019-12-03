@@ -3,7 +3,7 @@
 
 Given Model Accuracy - Accuracy on test data is: 82.48
 
---
+
 50 EPOCH DATA
 --
 
