@@ -15,71 +15,70 @@ from keras.layers import Activation, GlobalAveragePooling2D, AveragePooling2D
 
 model_new = Sequential()
 
-model_new.add(SeparableConv2D(64, 3, input_shape=(32, 32, 3),border_mode='same', use_bias=False, name = "Block1")) # RF 3X3
+model_new.add(SeparableConv2D(64, 3, input_shape=(32, 32, 3),border_mode='same', use_bias=False, name = "Block1")) # RF 1x1
 model_new.add(Activation('relu'))
 model_new.add(BatchNormalization())
 model_new.add(Dropout(0.05))
 # 32x32x64 
 
 
-model_new.add(SeparableConv2D(64, 3 ,activation='relu',border_mode='valid', use_bias=False)) # RF 5X5
+model_new.add(SeparableConv2D(64, 3 ,activation='relu',border_mode='valid', use_bias=False)) # RF 3x3
+model_new.add(BatchNormalization())
+model_new.add(Dropout(0.05))
+# 30x30x64
+
+model_new.add(SeparableConv2D(128, 3, activation='relu',border_mode='same', use_bias=False)) # RF 5x5
+model_new.add(BatchNormalization())
+model_new.add(Dropout(0.05))
+# 30x30x128
+
+
+model_new.add(SeparableConv2D(64, 3 ,activation='relu',border_mode='valid', use_bias=False)) # RF 7x7
 model_new.add(BatchNormalization())
 model_new.add(Dropout(0.05))
 # 28x28x64
 
-model_new.add(SeparableConv2D(128, 3, activation='relu',border_mode='same', use_bias=False)) # RF 7X7
+model_new.add(SeparableConv2D(128, 3, activation='relu',border_mode='same', use_bias=False)) # RF 9x9
 model_new.add(BatchNormalization())
 model_new.add(Dropout(0.05))
-# 26x26x128
+# 28x28x128
 
-print("Block1-------------------------------------------------------------------------------------------")
+model_new.add(Conv2D(16, (1, 1), use_bias=False)) # RF 11x11
+# 28x28x16
+model_new.add(MaxPooling2D(pool_size=(2, 2))) # RF 12x12
+model_new.add(Dropout(0.05))
+# 14x14x16
 
-model_new.add(SeparableConv2D(64, 3 ,activation='relu',border_mode='valid', use_bias=False)) # RF 9X9
+
+model_new.add(SeparableConv2D(128, 3 ,activation='relu',border_mode='valid', use_bias=False))  # RF 16x16
 model_new.add(BatchNormalization())
 model_new.add(Dropout(0.05))
-# 24x24x64
+# 12x12x128
 
-model_new.add(SeparableConv2D(128, 3, activation='relu',border_mode='same', use_bias=False)) # RF 11X11
+model_new.add(SeparableConv2D(64, 3, activation='relu',border_mode='same', use_bias=False))  # RF 20x20
 model_new.add(BatchNormalization())
 model_new.add(Dropout(0.05))
-# 22x22x128
+# 12x12x64
 
-model_new.add(Conv2D(16, (1, 1), use_bias=False)) # RF
-model_new.add(MaxPooling2D(pool_size=(2, 2))) 
-model_new.add(Dropout(0.05))
-# 11x11x16
-
-print("Block2-------------------------------------------------------------------------------------------")
-
-model_new.add(SeparableConv2D(128, 3 ,activation='relu',border_mode='valid', use_bias=False)) 
+model_new.add(SeparableConv2D(128, 3 ,activation='relu',border_mode='valid', use_bias=False)) # RF 24x24
 model_new.add(BatchNormalization())
 model_new.add(Dropout(0.05))
-#9x9x128
-
-model_new.add(SeparableConv2D(64, 3, activation='relu',border_mode='same', use_bias=False)) 
-model_new.add(BatchNormalization())
-model_new.add(Dropout(0.05))
-#7x7x64
-
-model_new.add(SeparableConv2D(128, 3 ,activation='relu',border_mode='valid', use_bias=False)) 
-model_new.add(BatchNormalization())
-model_new.add(Dropout(0.05))
-#5x5x128
+# 10x10x128
 
 
 print("Block3-------------------------------------------------------------------------------------------")
-model_new.add(SeparableConv2D(64, 3, activation='relu',border_mode='same', use_bias=False))
+model_new.add(SeparableConv2D(64, 3, activation='relu',border_mode='same', use_bias=False)) # RF 28x28
 model_new.add(BatchNormalization())
 model_new.add(Dropout(0.05))
-# 3x3x64
+# 10x10x64
 
-model_new.add(SeparableConv2D(128, 3, activation='relu',border_mode='valid', use_bias=False)) # RF  
+model_new.add(SeparableConv2D(128, 3, activation='relu',border_mode='valid', use_bias=False)) # RF 32x32
 model_new.add(BatchNormalization())
 model_new.add(Dropout(0.05))
-# 1x1x128
+# 8x8x128
 
 model_new.add(SeparableConv2D(10, 1, 1, use_bias=False)) 
-# 1x1x10
+# 8x8x10
 
 print("Block4------------------------------------------------------------------------------------------")
 
