@@ -3,6 +3,175 @@
 
 Given Model Accuracy - Accuracy on test data is: 82.48
 
+Model Definition
+--
+
+from keras.layers.convolutional import DepthwiseConv2D, SeparableConv2D, Conv2D
+from keras.layers import Activation, GlobalAveragePooling2D, AveragePooling2D
+
+   
+
+model_new = Sequential()
+
+model_new.add(SeparableConv2D(64, 3, input_shape=(32, 32, 3),border_mode='same', use_bias=False, name = "Block1")) # RF 3X3
+model_new.add(Activation('relu'))
+model_new.add(BatchNormalization())
+model_new.add(Dropout(0.05))
+# 32x32x64 
+
+
+model_new.add(SeparableConv2D(64, 3 ,activation='relu',border_mode='valid', use_bias=False)) # RF 5X5
+model_new.add(BatchNormalization())
+model_new.add(Dropout(0.05))
+# 28x28x64
+
+model_new.add(SeparableConv2D(128, 3, activation='relu',border_mode='same', use_bias=False)) # RF 7X7
+model_new.add(BatchNormalization())
+model_new.add(Dropout(0.05))
+# 26x26x128
+
+print("Block1-------------------------------------------------------------------------------------------")
+
+model_new.add(SeparableConv2D(64, 3 ,activation='relu',border_mode='valid', use_bias=False)) # RF 9X9
+model_new.add(BatchNormalization())
+model_new.add(Dropout(0.05))
+# 24x24x64
+
+model_new.add(SeparableConv2D(128, 3, activation='relu',border_mode='same', use_bias=False)) # RF 11X11
+model_new.add(BatchNormalization())
+model_new.add(Dropout(0.05))
+# 22x22x128
+
+model_new.add(Conv2D(16, (1, 1), use_bias=False)) # RF
+model_new.add(MaxPooling2D(pool_size=(2, 2))) 
+model_new.add(Dropout(0.05))
+# 11x11x16
+
+print("Block2-------------------------------------------------------------------------------------------")
+
+model_new.add(SeparableConv2D(128, 3 ,activation='relu',border_mode='valid', use_bias=False)) 
+model_new.add(BatchNormalization())
+model_new.add(Dropout(0.05))
+#9x9x128
+
+model_new.add(SeparableConv2D(64, 3, activation='relu',border_mode='same', use_bias=False)) 
+model_new.add(BatchNormalization())
+model_new.add(Dropout(0.05))
+#7x7x64
+
+model_new.add(SeparableConv2D(128, 3 ,activation='relu',border_mode='valid', use_bias=False)) 
+model_new.add(BatchNormalization())
+model_new.add(Dropout(0.05))
+#5x5x128
+
+
+print("Block3-------------------------------------------------------------------------------------------")
+model_new.add(SeparableConv2D(64, 3, activation='relu',border_mode='same', use_bias=False))
+model_new.add(BatchNormalization())
+model_new.add(Dropout(0.05))
+# 3x3x64
+
+model_new.add(SeparableConv2D(128, 3, activation='relu',border_mode='valid', use_bias=False)) # RF  
+model_new.add(BatchNormalization())
+model_new.add(Dropout(0.05))
+# 1x1x128
+
+model_new.add(SeparableConv2D(10, 1, 1, use_bias=False)) 
+# 1x1x10
+
+print("Block4------------------------------------------------------------------------------------------")
+
+
+model_new.add(GlobalAveragePooling2D(data_format='channels_last')) # 10
+model_new.add(Activation('softmax'))
+
+Model Summary
+--
+Model: "sequential_2"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+Block1 (SeparableConv2D)     (None, 32, 32, 64)        219       
+_________________________________________________________________
+activation_9 (Activation)    (None, 32, 32, 64)        0         
+_________________________________________________________________
+batch_normalization_1 (Batch (None, 32, 32, 64)        256       
+_________________________________________________________________
+dropout_6 (Dropout)          (None, 32, 32, 64)        0         
+_________________________________________________________________
+block_layer_0 (SeparableConv (None, 30, 30, 64)        4672      
+_________________________________________________________________
+batch_normalization_2 (Batch (None, 30, 30, 64)        256       
+_________________________________________________________________
+dropout_7 (Dropout)          (None, 30, 30, 64)        0         
+_________________________________________________________________
+block_layer_1 (SeparableConv (None, 30, 30, 128)       8768      
+_________________________________________________________________
+batch_normalization_3 (Batch (None, 30, 30, 128)       512       
+_________________________________________________________________
+dropout_8 (Dropout)          (None, 30, 30, 128)       0         
+_________________________________________________________________
+block_layer_2 (SeparableConv (None, 28, 28, 64)        9344      
+_________________________________________________________________
+batch_normalization_4 (Batch (None, 28, 28, 64)        256       
+_________________________________________________________________
+dropout_9 (Dropout)          (None, 28, 28, 64)        0         
+_________________________________________________________________
+block_layer_3 (SeparableConv (None, 28, 28, 128)       8768      
+_________________________________________________________________
+batch_normalization_5 (Batch (None, 28, 28, 128)       512       
+_________________________________________________________________
+dropout_10 (Dropout)         (None, 28, 28, 128)       0         
+_________________________________________________________________
+conv2d_7 (Conv2D)            (None, 28, 28, 16)        2048      
+_________________________________________________________________
+max_pooling2d_4 (MaxPooling2 (None, 14, 14, 16)        0         
+_________________________________________________________________
+dropout_11 (Dropout)         (None, 14, 14, 16)        0         
+_________________________________________________________________
+block_layer_4 (SeparableConv (None, 12, 12, 128)       2192      
+_________________________________________________________________
+batch_normalization_6 (Batch (None, 12, 12, 128)       512       
+_________________________________________________________________
+dropout_12 (Dropout)         (None, 12, 12, 128)       0         
+_________________________________________________________________
+block_layer_5 (SeparableConv (None, 12, 12, 64)        9344      
+_________________________________________________________________
+batch_normalization_7 (Batch (None, 12, 12, 64)        256       
+_________________________________________________________________
+dropout_13 (Dropout)         (None, 12, 12, 64)        0         
+_________________________________________________________________
+block_layer_6 (SeparableConv (None, 10, 10, 128)       8768      
+_________________________________________________________________
+batch_normalization_8 (Batch (None, 10, 10, 128)       512       
+_________________________________________________________________
+dropout_14 (Dropout)         (None, 10, 10, 128)       0         
+_________________________________________________________________
+block_layer_7 (SeparableConv (None, 10, 10, 64)        9344      
+_________________________________________________________________
+batch_normalization_9 (Batch (None, 10, 10, 64)        256       
+_________________________________________________________________
+dropout_15 (Dropout)         (None, 10, 10, 64)        0         
+_________________________________________________________________
+block_layer_8 (SeparableConv (None, 8, 8, 128)         8768      
+_________________________________________________________________
+batch_normalization_10 (Batc (None, 8, 8, 128)         512       
+_________________________________________________________________
+dropout_16 (Dropout)         (None, 8, 8, 128)         0         
+_________________________________________________________________
+block_layer_9 (SeparableConv (None, 8, 8, 10)          1408      
+_________________________________________________________________
+global_average_pooling2d_1 ( (None, 10)                0         
+_________________________________________________________________
+activation_10 (Activation)   (None, 10)                0         
+=================================================================
+Total params: 77,483
+Trainable params: 75,563
+Non-trainable params: 1,920
+_________________________________________________________________
+
+
+
 
 50 EPOCH DATA
 --
